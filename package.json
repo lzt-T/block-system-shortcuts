@@ -1,0 +1,33 @@
+{
+  "name": "disable-winkey-addon",
+  "version": "1.0.0",
+  "description": "Node.js C++ Addon library to disable Windows key",
+  "main": "index.js",
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "install": "node-gyp rebuild",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "node-addon-api": "^7.0.0"
+  },
+  "devDependencies": {
+    "node-gyp": "^10.0.0"
+  },
+  "keywords": [
+    "windows",
+    "winkey",
+    "keyboard",
+    "hook",
+    "disable",
+    "addon",
+    "native"
+  ],
+  "author": "",
+  "license": "MIT",
+  "gypfile": true,
+  "os": ["win32"],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
