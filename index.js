@@ -70,6 +70,16 @@ class KeyManager {
     }
 }
 
+const enableAll = () => {
+    addon.enableWinKey();
+    addon.enableAltTab();
+};
+
+const disableAll = () => {
+    addon.disableWinKey();
+    addon.disableAltTab();
+};
+
 module.exports = {
     KeyManager,
     // 直接导出函数供简单使用
@@ -79,6 +89,6 @@ module.exports = {
     disableAltTab: addon.disableAltTab,
     enableAltTab: addon.enableAltTab,
     isAltTabDisabled: addon.isAltTabDisabled,
-    enableAll: addon.enableAll,
-    disableAll: addon.disableAll,
+    enableAll,
+    disableAll,
 };
