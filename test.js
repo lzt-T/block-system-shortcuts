@@ -1,13 +1,12 @@
-const { disableWinKey, enableWinKey, isWinKeyDisabled } = require("./index");
+const { disableWinKey, enableWinKey, isWinKeyDisabled ,disableAltTab ,enableAltTab} = require("./index");
 
-console.log("Windows键禁用测试");
-console.log("初始状态:", isWinKeyDisabled() ? "禁用" : "启用");
-
+console.log("Windows键禁用测试 （Alt+Tab也会被禁用）");
 // 禁用Windows键
-console.log("禁用Windows键...");
-if (disableWinKey()) {
+console.log("禁用Windows键和Alt+Tab...");
+
+if (disableWinKey() && disableAltTab()) {
   console.log("✓ 禁用成功");
-  console.log("现在Windows键已被禁用，按 Ctrl+C 退出测试");
+  console.log("现在Windows键和Alt+Tab已被禁用，按 Ctrl+C 退出测试");
 
   // 保持程序运行，等待用户按Ctrl+C
   const keepAlive = setInterval(() => {
@@ -17,9 +16,9 @@ if (disableWinKey()) {
   // 处理Ctrl+C退出
   process.on("SIGINT", () => {
     clearInterval(keepAlive);
-    console.log("\n正在恢复Windows键...");
-    if (enableWinKey()) {
-      console.log("✓ Windows键已恢复");
+    console.log("\n正在恢复Windows键和Alt+Tab...");
+    if (enableWinKey() && enableAltTab()) {
+      console.log("✓ Windows键和Alt+Tab已恢复");
     } else {
       console.log("✗ 恢复失败");
     }
@@ -33,4 +32,5 @@ if (disableWinKey()) {
 // 确保退出时恢复Windows键
 process.on("exit", () => {
   enableWinKey();
+  enableAltTab(); 
 });

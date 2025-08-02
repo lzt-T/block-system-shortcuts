@@ -1,44 +1,24 @@
 const addon = require('./build/Release/disable_winkey.node');
 
-class WinKeyManager {
+class KeyManager {
     constructor() {
-        this.isDisabled = false;
+        // 状态由原生插件内部管理
     }
 
     /**
      * 禁用Windows键
-     * @returns {boolean} 成功返回true，失败返回false
+     * @returns {boolean} 成功返回true
      */
-    disable() {
-        try {
-            const result = addon.disableWinKey();
-            if (result) {
-                this.isDisabled = true;
-                console.log('Windows键已禁用');
-            }
-            return result;
-        } catch (error) {
-            console.error('禁用Windows键失败:', error.message);
-            return false;
-        }
+    disableWinKey() {
+        return addon.disableWinKey();
     }
 
     /**
      * 启用Windows键
-     * @returns {boolean} 成功返回true，失败返回false
+     * @returns {boolean} 成功返回true
      */
-    enable() {
-        try {
-            const result = addon.enableWinKey();
-            if (result) {
-                this.isDisabled = false;
-                console.log('Windows键已启用');
-            }
-            return result;
-        } catch (error) {
-            console.error('启用Windows键失败:', error.message);
-            return false;
-        }
+    enableWinKey() {
+        return addon.enableWinKey();
     }
 
     /**
@@ -50,22 +30,45 @@ class WinKeyManager {
     }
 
     /**
-     * 切换Windows键状态
-     * @returns {boolean} 当前状态
+     * 禁用Alt+Tab
+     * @returns {boolean} 成功返回true
      */
-    toggle() {
-        if (this.isWinKeyDisabled()) {
-            return this.enable();
-        } else {
-            return this.disable();
-        }
+    disableAltTab() {
+        return addon.disableAltTab();
+    }
+
+    /**
+     * 启用Alt+Tab
+     * @returns {boolean} 成功返回true
+     */
+    enableAltTab() {
+        return addon.enableAltTab();
+    }
+
+    /**
+     * 检查Alt+Tab是否被禁用
+     * @returns {boolean} 禁用返回true，启用返回false
+     */
+    isAltTabDisabled() {
+        return addon.isAltTabDisabled();
+    }
+
+    /**
+     * 启用所有功能
+     */
+    enableAll() {
+        this.enableWinKey();
+        this.enableAltTab();
     }
 }
 
 module.exports = {
-    WinKeyManager,
+    KeyManager,
     // 直接导出函数供简单使用
     disableWinKey: addon.disableWinKey,
     enableWinKey: addon.enableWinKey,
-    isWinKeyDisabled: addon.isWinKeyDisabled
+    isWinKeyDisabled: addon.isWinKeyDisabled,
+    disableAltTab: addon.disableAltTab,
+    enableAltTab: addon.enableAltTab,
+    isAltTabDisabled: addon.isAltTabDisabled
 };
