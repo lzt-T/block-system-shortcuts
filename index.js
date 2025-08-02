@@ -60,6 +60,14 @@ class KeyManager {
         this.enableWinKey();
         this.enableAltTab();
     }
+
+    /**
+     * 禁用所有功能
+     */
+    disableAll() {
+        this.disableWinKey();
+        this.disableAltTab();
+    }
 }
 
 module.exports = {
@@ -70,5 +78,7 @@ module.exports = {
     isWinKeyDisabled: addon.isWinKeyDisabled,
     disableAltTab: addon.disableAltTab,
     enableAltTab: addon.enableAltTab,
-    isAltTabDisabled: addon.isAltTabDisabled
+    isAltTabDisabled: addon.isAltTabDisabled,
+    enableAll: addon.enableAll,
+    disableAll: addon.disableAll,
 };
