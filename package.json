@@ -26,7 +26,7 @@
   "author": "",
   "license": "MIT",
   "gypfile": true,
-  "os": ["win32"],
+  "os": ["win32", "darwin"],
   "engines": {
     "node": ">=14.0.0"
   }

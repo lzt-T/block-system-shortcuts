@@ -1,94 +1,90 @@
 const addon = require('./build/Release/disable_winkey.node');
 
+/**
+ * A manager for handling keyboard key state.
+ */
 class KeyManager {
     constructor() {
-        // 状态由原生插件内部管理
+        // State is managed internally by the native addon.
     }
 
     /**
-     * 禁用Windows键
-     * @returns {boolean} 成功返回true
+     * Disables the "Super" key (Windows key on Windows, Command key on macOS).
+     * @returns {boolean} Returns true on success.
      */
-    disableWinKey() {
-        return addon.disableWinKey();
+    disableSuperKey() {
+        return addon.disableSuperKey();
     }
 
     /**
-     * 启用Windows键
-     * @returns {boolean} 成功返回true
+     * Enables the "Super" key.
+     * @returns {boolean} Returns true on success.
      */
-    enableWinKey() {
-        return addon.enableWinKey();
+    enableSuperKey() {
+        return addon.enableSuperKey();
     }
 
     /**
-     * 检查Windows键是否被禁用
-     * @returns {boolean} 禁用返回true，启用返回false
+     * Checks if the "Super" key is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
      */
-    isWinKeyDisabled() {
-        return addon.isWinKeyDisabled();
+    isSuperKeyDisabled() {
+        return addon.isSuperKeyDisabled();
     }
 
     /**
-     * 禁用Alt+Tab
-     * @returns {boolean} 成功返回true
+     * Disables the application switcher (Alt+Tab on Windows, Command+Tab on macOS).
+     * @returns {boolean} Returns true on success.
      */
-    disableAltTab() {
-        return addon.disableAltTab();
+    disableAppSwitch() {
+        return addon.disableAppSwitch();
     }
 
     /**
-     * 启用Alt+Tab
-     * @returns {boolean} 成功返回true
+     * Enables the application switcher.
+     * @returns {boolean} Returns true on success.
      */
-    enableAltTab() {
-        return addon.enableAltTab();
+    enableAppSwitch() {
+        return addon.enableAppSwitch();
     }
 
     /**
-     * 检查Alt+Tab是否被禁用
-     * @returns {boolean} 禁用返回true，启用返回false
+     * Checks if the application switcher is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
      */
-    isAltTabDisabled() {
-        return addon.isAltTabDisabled();
+    isAppSwitchDisabled() {
+        return addon.isAppSwitchDisabled();
     }
 
     /**
-     * 启用所有功能
+     * Enables all functionalities.
      */
     enableAll() {
-        this.enableWinKey();
-        this.enableAltTab();
+        this.enableSuperKey();
+        this.enableAppSwitch();
     }
 
     /**
-     * 禁用所有功能
+     * Disables all functionalities.
      */
     disableAll() {
-        this.disableWinKey();
-        this.disableAltTab();
+        this.disableSuperKey();
+        this.disableAppSwitch();
     }
 }
 
-const enableAll = () => {
-    addon.enableWinKey();
-    addon.enableAltTab();
-};
+const keyManager = new KeyManager();
 
-const disableAll = () => {
-    addon.disableWinKey();
-    addon.disableAltTab();
-};
-
+// To solve the `this` context issue cleanly, we export functions
+// that are guaranteed to call the methods on the single instance.
 module.exports = {
     KeyManager,
-    // 直接导出函数供简单使用
-    disableWinKey: addon.disableWinKey,
-    enableWinKey: addon.enableWinKey,
-    isWinKeyDisabled: addon.isWinKeyDisabled,
-    disableAltTab: addon.disableAltTab,
-    enableAltTab: addon.enableAltTab,
-    isAltTabDisabled: addon.isAltTabDisabled,
-    enableAll,
-    disableAll,
+    disableSuperKey: () => keyManager.disableSuperKey(),
+    enableSuperKey: () => keyManager.enableSuperKey(),
+    isSuperKeyDisabled: () => keyManager.isSuperKeyDisabled(),
+    disableAppSwitch: () => keyManager.disableAppSwitch(),
+    enableAppSwitch: () => keyManager.enableAppSwitch(),
+    isAppSwitchDisabled: () => keyManager.isAppSwitchDisabled(),
+    enableAll: () => keyManager.enableAll(),
+    disableAll: () => keyManager.disableAll(),
 };
