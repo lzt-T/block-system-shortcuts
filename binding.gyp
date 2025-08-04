@@ -31,8 +31,8 @@
           },
           "link_settings": {
             "libraries": [
-              "'-framework', 'CoreFoundation'",
-              "'-framework', 'ApplicationServices'"
+              "-framework CoreFoundation",
+              "-framework ApplicationServices"
             ]
           }
         }]
