@@ -3,6 +3,7 @@
 
 # Build artifacts
 /build
+/bin
 
 # Logs
 npm-debug.log*

@@ -1,4 +1,6 @@
-const addon = require('./build/Release/disable_winkey.node');
+const bindings = require('bindings');
+
+const addon = bindings('disable_winkey');
 
 /**
  * A manager for handling keyboard key state.

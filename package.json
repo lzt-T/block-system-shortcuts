@@ -9,6 +9,7 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "bindings": "^1.5.0",
     "node-addon-api": "^7.0.0"
   },
   "devDependencies": {
@@ -26,7 +27,10 @@
   "author": "",
   "license": "MIT",
   "gypfile": true,
-  "os": ["win32", "darwin"],
+  "os": [
+    "win32",
+    "darwin"
+  ],
   "engines": {
     "node": ">=14.0.0"
   }
