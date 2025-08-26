@@ -27,6 +27,16 @@ CGEventRef EventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
         {
             return NULL;
         }
+
+        if (g_isAltKeyDisabled && (flags & kCGEventFlagMaskAlternate))
+        {
+            return NULL;
+        }
+
+        if (g_isF11KeyDisabled && keyCode == kVK_F11)
+        {
+            return NULL;
+        }
     }
     return event;
 }
@@ -80,7 +90,7 @@ void EnsureHookThreadRunning(Napi::Env env)
 
 void StopHookThreadIfNeeded()
 {
-    if (g_runLoop && !g_isWinKeyDisabled && !g_isAltTabDisabled)
+    if (g_runLoop && !g_isWinKeyDisabled && !g_isAltTabDisabled && !g_isAltKeyDisabled && !g_isF11KeyDisabled)
     {
         CFRunLoopStop(g_runLoop);
         pthread_join(g_thread, NULL);

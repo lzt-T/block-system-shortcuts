@@ -59,11 +59,61 @@ class KeyManager {
     }
 
     /**
+     * Disables the Alt key (Option key on macOS).
+     * @returns {boolean} Returns true on success.
+     */
+    disableAltKey() {
+        return addon.disableAltKey();
+    }
+
+    /**
+     * Enables the Alt key.
+     * @returns {boolean} Returns true on success.
+     */
+    enableAltKey() {
+        return addon.enableAltKey();
+    }
+
+    /**
+     * Checks if the Alt key is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
+     */
+    isAltKeyDisabled() {
+        return addon.isAltKeyDisabled();
+    }
+
+    /**
+     * Disables the F11 key.
+     * @returns {boolean} Returns true on success.
+     */
+    disableF11Key() {
+        return addon.disableF11Key();
+    }
+
+    /**
+     * Enables the F11 key.
+     * @returns {boolean} Returns true on success.
+     */
+    enableF11Key() {
+        return addon.enableF11Key();
+    }
+
+    /**
+     * Checks if the F11 key is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
+     */
+    isF11KeyDisabled() {
+        return addon.isF11KeyDisabled();
+    }
+
+    /**
      * Enables all functionalities.
      */
     enableAll() {
         this.enableSuperKey();
         this.enableAppSwitch();
+        this.enableAltKey();
+        this.enableF11Key();
     }
 
     /**
@@ -72,6 +122,8 @@ class KeyManager {
     disableAll() {
         this.disableSuperKey();
         this.disableAppSwitch();
+        this.disableAltKey();
+        this.disableF11Key();
     }
 }
 
@@ -87,6 +139,12 @@ module.exports = {
     disableAppSwitch: () => keyManager.disableAppSwitch(),
     enableAppSwitch: () => keyManager.enableAppSwitch(),
     isAppSwitchDisabled: () => keyManager.isAppSwitchDisabled(),
+    disableAltKey: () => keyManager.disableAltKey(),
+    enableAltKey: () => keyManager.enableAltKey(),
+    isAltKeyDisabled: () => keyManager.isAltKeyDisabled(),
+    disableF11Key: () => keyManager.disableF11Key(),
+    enableF11Key: () => keyManager.enableF11Key(),
+    isF11KeyDisabled: () => keyManager.isF11KeyDisabled(),
     enableAll: () => keyManager.enableAll(),
     disableAll: () => keyManager.disableAll(),
 };

@@ -12,5 +12,7 @@ void PlatformInit(Napi::Env env, Napi::Object exports);
 // Declarations for global state variables defined in addon.cpp
 extern bool g_isWinKeyDisabled;
 extern bool g_isAltTabDisabled;
+extern bool g_isAltKeyDisabled;
+extern bool g_isF11KeyDisabled;
 
 #endif // PLATFORM_H

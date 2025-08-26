@@ -1,6 +1,6 @@
-# Super/Command 键和应用切换键禁用插件 (Node.js C++ Addon)
+# 按键禁用插件 (Node.js C++ Addon)
 
-这是一个用于禁用 "Super" 键 (Windows 上的 Win 键, macOS 上的 Command 键) 和应用切换快捷键 (Win: Alt+Tab, Mac: Cmd+Tab) 的 Node.js C++ Addon 库。
+这是一个用于禁用特定按键的 Node.js C++ Addon 库，支持禁用 "Super" 键 (Windows 上的 Win 键, macOS 上的 Command 键)、应用切换快捷键 (Win: Alt+Tab, Mac: Cmd+Tab)、Alt键以及F11键。
 
 本项目从一个仅支持 Windows 的实现，重构为了一个高质量、易于维护和扩展的跨平台解决方案。
 
@@ -9,6 +9,8 @@
 - **跨平台支持**: 同时支持 Windows 和 macOS。
 - **禁用 Super 键**: 禁用 Windows 键或 macOS 的 Command 键。
 - **禁用应用切换**: 禁用 Alt+Tab 或 Command+Tab。
+- **禁用 Alt 键**: 禁用 Alt 键 (Windows) 或 Option 键 (macOS)。
+- **禁用 F11 键**: 禁用 F11 功能键，防止意外全屏切换。
 - **简单易用的 JavaScript API**: 提供统一的 `KeyManager` 类和独立的函数调用方式。
 - **高性能**: 使用原生代码实现，对系统性能影响极小。
 - **自动资源清理**: 在程序退出时自动恢复所有按键功能，防止意外锁定。
@@ -91,7 +93,13 @@ addon.disableSuperKey();
 ```javascript
 const { app, BrowserWindow } = require('electron');
 // 假设已正确安装和编译，可以直接通过包名引入
-const { disableAll, enableAll } = require('disable-winkey-addon'); 
+const { 
+    disableAll, 
+    enableAll,
+    disableSuperKey,
+    disableAltKey,
+    disableF11Key
+} = require('disable-winkey-addon'); 
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -104,7 +112,12 @@ function createWindow() {
   // 在窗口聚焦时禁用按键
   win.on('focus', () => {
     console.log('窗口聚焦，禁用按键。');
-    disableAll();
+    disableAll(); // 禁用所有按键
+    
+    // 或者单独禁用特定按键
+    // disableSuperKey(); // 仅禁用Windows键/Command键
+    // disableAltKey();   // 仅禁用Alt键
+    // disableF11Key();   // 仅禁用F11键
   });
 
   // 在窗口失焦时恢复按键
@@ -133,15 +146,47 @@ app.on('will-quit', () => {
 const { KeyManager } = require('disable-winkey-addon');
 
 const keyManager = new KeyManager();
+
+// 禁用特定按键
+keyManager.disableSuperKey();  // 禁用Windows键/Command键
+keyManager.disableAppSwitch(); // 禁用Alt+Tab/Cmd+Tab
+keyManager.disableAltKey();    // 禁用Alt键/Option键
+keyManager.disableF11Key();    // 禁用F11键
+
+// 检查状态
+console.log('Super键已禁用:', keyManager.isSuperKeyDisabled());
+console.log('Alt键已禁用:', keyManager.isAltKeyDisabled());
+console.log('F11键已禁用:', keyManager.isF11KeyDisabled());
+
+// 恢复按键
+keyManager.enableAll(); // 恢复所有按键
 // ... 更多使用方法见下方 API 文档
 ```
 
 ### 直接函数调用
 
 ```javascript
-const { disableSuperKey, enableSuperKey } = require('disable-winkey-addon');
+const { 
+    disableSuperKey, 
+    enableSuperKey,
+    disableAltKey,
+    enableAltKey,
+    disableF11Key,
+    enableF11Key,
+    disableAll,
+    enableAll
+} = require('disable-winkey-addon');
 
+// 禁用所有按键
+disableAll();
+
+// 或者单独控制
 disableSuperKey();
+disableAltKey();
+disableF11Key();
+
+// 恢复所有按键
+enableAll();
 // ... 更多使用方法见下方 API 文档
 ```
 
@@ -165,6 +210,12 @@ npm test
 - `disableAppSwitch()`: 禁用应用切换功能 (Alt/Cmd+Tab)。返回 `true`。
 - `enableAppSwitch()`: 启用应用切换功能。返回 `true`。
 - `isAppSwitchDisabled()`: 检查应用切换功能是否被禁用。返回 `boolean`。
+- `disableAltKey()`: 禁用 Alt 键 (Win) / Option 键 (Mac)。返回 `true`。
+- `enableAltKey()`: 启用 Alt 键。返回 `true`。
+- `isAltKeyDisabled()`: 检查 Alt 键是否被禁用。返回 `boolean`。
+- `disableF11Key()`: 禁用 F11 键。返回 `true`。
+- `enableF11Key()`: 启用 F11 键。返回 `true`。
+- `isF11KeyDisabled()`: 检查 F11 键是否被禁用。返回 `boolean`。
 - `disableAll()`: 禁用所有受管功能。
 - `enableAll()`: 启用所有受管功能。
 

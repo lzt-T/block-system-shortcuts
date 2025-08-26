@@ -17,6 +17,12 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
         if (g_isAltTabDisabled && p->vkCode == VK_TAB && (GetKeyState(VK_MENU) & 0x8000)) {
             return 1;
         }
+        if (g_isAltKeyDisabled && (p->vkCode == VK_LMENU || p->vkCode == VK_RMENU)) {
+            return 1;
+        }
+        if (g_isF11KeyDisabled && p->vkCode == VK_F11) {
+            return 1;
+        }
     }
     return CallNextHookEx(g_hHook, nCode, wParam, lParam);
 }
@@ -54,7 +60,7 @@ void EnsureHookThreadRunning(Napi::Env env) {
 }
 
 void StopHookThreadIfNeeded() {
-    if (g_hThread != NULL && !g_isWinKeyDisabled && !g_isAltTabDisabled) {
+    if (g_hThread != NULL && !g_isWinKeyDisabled && !g_isAltTabDisabled && !g_isAltKeyDisabled && !g_isF11KeyDisabled) {
         PostThreadMessage(g_dwThreadId, WM_QUIT, 0, 0);
         WaitForSingleObject(g_hThread, 1000);
         CloseHandle(g_hThread);
