@@ -43,9 +43,31 @@ CGEventRef EventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
             return NULL;
         }
 
-        if (g_isF3KeyDisabled && keyCode == kVK_F3)
+        // F3键的全面拦截处理
+        if (g_isF3KeyDisabled)
         {
-            return NULL;
+            // 调试输出：显示键码和标志（仅在开发时使用）
+            #ifdef DEBUG
+            std::cout << "Key pressed: keyCode=" << keyCode << ", flags=" << flags << std::endl;
+            #endif
+            
+            // 直接按F3键
+            if (keyCode == kVK_F3)
+            {
+                return NULL;
+            }
+            
+            // Fn+F3组合键（带有Function标志）
+            if ((flags & kCGEventFlagMaskFunction) && keyCode == kVK_F3)
+            {
+                return NULL;
+            }
+            
+            // Mission Control 功能键（可能的键码）
+            if (keyCode == 160 || keyCode == 131 || keyCode == 179) // 常见的Mission Control键码
+            {
+                return NULL;
+            }
         }
     }
     return event;
