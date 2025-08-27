@@ -107,6 +107,54 @@ class KeyManager {
     }
 
     /**
+     * Disables the Ctrl key.
+     * @returns {boolean} Returns true on success.
+     */
+    disableCtrlKey() {
+        return addon.disableCtrlKey();
+    }
+
+    /**
+     * Enables the Ctrl key.
+     * @returns {boolean} Returns true on success.
+     */
+    enableCtrlKey() {
+        return addon.enableCtrlKey();
+    }
+
+    /**
+     * Checks if the Ctrl key is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
+     */
+    isCtrlKeyDisabled() {
+        return addon.isCtrlKeyDisabled();
+    }
+
+    /**
+     * Disables the F3 key.
+     * @returns {boolean} Returns true on success.
+     */
+    disableF3Key() {
+        return addon.disableF3Key();
+    }
+
+    /**
+     * Enables the F3 key.
+     * @returns {boolean} Returns true on success.
+     */
+    enableF3Key() {
+        return addon.enableF3Key();
+    }
+
+    /**
+     * Checks if the F3 key is disabled.
+     * @returns {boolean} Returns true if disabled, false otherwise.
+     */
+    isF3KeyDisabled() {
+        return addon.isF3KeyDisabled();
+    }
+
+    /**
      * Enables all functionalities.
      */
     enableAll() {
@@ -114,6 +162,8 @@ class KeyManager {
         this.enableAppSwitch();
         this.enableAltKey();
         this.enableF11Key();
+        this.enableCtrlKey();
+        this.enableF3Key();
     }
 
     /**
@@ -124,6 +174,8 @@ class KeyManager {
         this.disableAppSwitch();
         this.disableAltKey();
         this.disableF11Key();
+        this.disableCtrlKey();
+        this.disableF3Key();
     }
 }
 
@@ -145,6 +197,12 @@ module.exports = {
     disableF11Key: () => keyManager.disableF11Key(),
     enableF11Key: () => keyManager.enableF11Key(),
     isF11KeyDisabled: () => keyManager.isF11KeyDisabled(),
+    disableCtrlKey: () => keyManager.disableCtrlKey(),
+    enableCtrlKey: () => keyManager.enableCtrlKey(),
+    isCtrlKeyDisabled: () => keyManager.isCtrlKeyDisabled(),
+    disableF3Key: () => keyManager.disableF3Key(),
+    enableF3Key: () => keyManager.enableF3Key(),
+    isF3KeyDisabled: () => keyManager.isF3KeyDisabled(),
     enableAll: () => keyManager.enableAll(),
     disableAll: () => keyManager.disableAll(),
 };

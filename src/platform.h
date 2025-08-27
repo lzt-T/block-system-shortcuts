@@ -14,5 +14,7 @@ extern bool g_isWinKeyDisabled;
 extern bool g_isAltTabDisabled;
 extern bool g_isAltKeyDisabled;
 extern bool g_isF11KeyDisabled;
+extern bool g_isCtrlKeyDisabled;
+extern bool g_isF3KeyDisabled;
 
 #endif // PLATFORM_H
