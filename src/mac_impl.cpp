@@ -57,14 +57,15 @@ CGEventRef EventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
                 return NULL;
             }
             
-            // Fn+F3组合键（带有Function标志）
-            if ((flags & kCGEventFlagMaskFunction) && keyCode == kVK_F3)
+            // 拦截Mission Control相关的键码（Fn+F3可能触发的功能）
+            // 在macOS中，Fn+F3通常会触发Mission Control，其键码可能不同
+            if (keyCode == 160 || keyCode == 131 || keyCode == 179) // 常见的Mission Control键码
             {
                 return NULL;
             }
             
-            // Mission Control 功能键（可能的键码）
-            if (keyCode == 160 || keyCode == 131 || keyCode == 179) // 常见的Mission Control键码
+            // 额外的F3相关功能键拦截（根据不同macOS版本可能不同）
+            if (keyCode == 130) // 一些系统中的F3功能键码
             {
                 return NULL;
             }
