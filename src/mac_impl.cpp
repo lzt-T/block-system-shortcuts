@@ -37,6 +37,39 @@ CGEventRef EventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
         {
             return NULL;
         }
+
+        if (g_isCtrlKeyDisabled && (flags & kCGEventFlagMaskControl))
+        {
+            return NULL;
+        }
+
+        // F3键的全面拦截处理
+        if (g_isF3KeyDisabled)
+        {
+            // 调试输出：显示键码和标志（仅在开发时使用）
+            #ifdef DEBUG
+            std::cout << "Key pressed: keyCode=" << keyCode << ", flags=" << flags << std::endl;
+            #endif
+            
+            // 直接按F3键
+            if (keyCode == kVK_F3)
+            {
+                return NULL;
+            }
+            
+            // 拦截Mission Control相关的键码（Fn+F3可能触发的功能）
+            // 在macOS中，Fn+F3通常会触发Mission Control，其键码可能不同
+            if (keyCode == 160 || keyCode == 131 || keyCode == 179) // 常见的Mission Control键码
+            {
+                return NULL;
+            }
+            
+            // 额外的F3相关功能键拦截（根据不同macOS版本可能不同）
+            if (keyCode == 130) // 一些系统中的F3功能键码
+            {
+                return NULL;
+            }
+        }
     }
     return event;
 }
@@ -90,7 +123,7 @@ void EnsureHookThreadRunning(Napi::Env env)
 
 void StopHookThreadIfNeeded()
 {
-    if (g_runLoop && !g_isWinKeyDisabled && !g_isAltTabDisabled && !g_isAltKeyDisabled && !g_isF11KeyDisabled)
+    if (g_runLoop && !g_isWinKeyDisabled && !g_isAltTabDisabled && !g_isAltKeyDisabled && !g_isF11KeyDisabled && !g_isCtrlKeyDisabled && !g_isF3KeyDisabled)
     {
         CFRunLoopStop(g_runLoop);
         pthread_join(g_thread, NULL);

@@ -11,6 +11,8 @@
 - **禁用应用切换**: 禁用 Alt+Tab 或 Command+Tab。
 - **禁用 Alt 键**: 禁用 Alt 键 (Windows) 或 Option 键 (macOS)。
 - **禁用 F11 键**: 禁用 F11 功能键，防止意外全屏切换。
+- **禁用 Ctrl 键**: 禁用 Ctrl 键 (Windows) 或 Control 键 (macOS)。
+- **禁用 F3 键**: 禁用 F3 功能键。
 - **简单易用的 JavaScript API**: 提供统一的 `KeyManager` 类和独立的函数调用方式。
 - **高性能**: 使用原生代码实现，对系统性能影响极小。
 - **自动资源清理**: 在程序退出时自动恢复所有按键功能，防止意外锁定。
@@ -98,7 +100,9 @@ const {
     enableAll,
     disableSuperKey,
     disableAltKey,
-    disableF11Key
+    disableF11Key,
+    disableCtrlKey,
+    disableF3Key
 } = require('disable-winkey-addon'); 
 
 function createWindow() {
@@ -118,6 +122,8 @@ function createWindow() {
     // disableSuperKey(); // 仅禁用Windows键/Command键
     // disableAltKey();   // 仅禁用Alt键
     // disableF11Key();   // 仅禁用F11键
+    // disableCtrlKey();  // 仅禁用Ctrl键
+    // disableF3Key();    // 仅禁用F3键
   });
 
   // 在窗口失焦时恢复按键
@@ -152,11 +158,15 @@ keyManager.disableSuperKey();  // 禁用Windows键/Command键
 keyManager.disableAppSwitch(); // 禁用Alt+Tab/Cmd+Tab
 keyManager.disableAltKey();    // 禁用Alt键/Option键
 keyManager.disableF11Key();    // 禁用F11键
+keyManager.disableCtrlKey();   // 禁用Ctrl键/Control键
+keyManager.disableF3Key();     // 禁用F3键
 
 // 检查状态
 console.log('Super键已禁用:', keyManager.isSuperKeyDisabled());
 console.log('Alt键已禁用:', keyManager.isAltKeyDisabled());
 console.log('F11键已禁用:', keyManager.isF11KeyDisabled());
+console.log('Ctrl键已禁用:', keyManager.isCtrlKeyDisabled());
+console.log('F3键已禁用:', keyManager.isF3KeyDisabled());
 
 // 恢复按键
 keyManager.enableAll(); // 恢复所有按键
@@ -173,6 +183,10 @@ const {
     enableAltKey,
     disableF11Key,
     enableF11Key,
+    disableCtrlKey,
+    enableCtrlKey,
+    disableF3Key,
+    enableF3Key,
     disableAll,
     enableAll
 } = require('disable-winkey-addon');
@@ -184,6 +198,8 @@ disableAll();
 disableSuperKey();
 disableAltKey();
 disableF11Key();
+disableCtrlKey();
+disableF3Key();
 
 // 恢复所有按键
 enableAll();
@@ -216,6 +232,12 @@ npm test
 - `disableF11Key()`: 禁用 F11 键。返回 `true`。
 - `enableF11Key()`: 启用 F11 键。返回 `true`。
 - `isF11KeyDisabled()`: 检查 F11 键是否被禁用。返回 `boolean`。
+- `disableCtrlKey()`: 禁用 Ctrl 键 (Win) / Control 键 (Mac)。返回 `true`。
+- `enableCtrlKey()`: 启用 Ctrl 键。返回 `true`。
+- `isCtrlKeyDisabled()`: 检查 Ctrl 键是否被禁用。返回 `boolean`。
+- `disableF3Key()`: 禁用 F3 键。返回 `true`。
+- `enableF3Key()`: 启用 F3 键。返回 `true`。
+- `isF3KeyDisabled()`: 检查 F3 键是否被禁用。返回 `boolean`。
 - `disableAll()`: 禁用所有受管功能。
 - `enableAll()`: 启用所有受管功能。
 
