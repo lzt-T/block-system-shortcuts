@@ -97,12 +97,7 @@ const { app, BrowserWindow } = require('electron');
 // 假设已正确安装和编译，可以直接通过包名引入
 const { 
     disableAll, 
-    enableAll,
-    disableSuperKey,
-    disableAltKey,
-    disableF11Key,
-    disableCtrlKey,
-    disableF3Key
+    enableAll
 } = require('disable-winkey-addon'); 
 
 function createWindow() {
@@ -117,13 +112,6 @@ function createWindow() {
   win.on('focus', () => {
     console.log('窗口聚焦，禁用按键。');
     disableAll(); // 禁用所有按键
-    
-    // 或者单独禁用特定按键
-    // disableSuperKey(); // 仅禁用Windows键/Command键
-    // disableAltKey();   // 仅禁用Alt键
-    // disableF11Key();   // 仅禁用F11键
-    // disableCtrlKey();  // 仅禁用Ctrl键
-    // disableF3Key();    // 仅禁用F3键
   });
 
   // 在窗口失焦时恢复按键
@@ -154,19 +142,8 @@ const { KeyManager } = require('disable-winkey-addon');
 const keyManager = new KeyManager();
 
 // 禁用特定按键
-keyManager.disableSuperKey();  // 禁用Windows键/Command键
-keyManager.disableAppSwitch(); // 禁用Alt+Tab/Cmd+Tab
-keyManager.disableAltKey();    // 禁用Alt键/Option键
-keyManager.disableF11Key();    // 禁用F11键
-keyManager.disableCtrlKey();   // 禁用Ctrl键/Control键
-keyManager.disableF3Key();     // 禁用F3键
+keyManager.disableAll(); // 禁用所有按键
 
-// 检查状态
-console.log('Super键已禁用:', keyManager.isSuperKeyDisabled());
-console.log('Alt键已禁用:', keyManager.isAltKeyDisabled());
-console.log('F11键已禁用:', keyManager.isF11KeyDisabled());
-console.log('Ctrl键已禁用:', keyManager.isCtrlKeyDisabled());
-console.log('F3键已禁用:', keyManager.isF3KeyDisabled());
 
 // 恢复按键
 keyManager.enableAll(); // 恢复所有按键
@@ -177,16 +154,6 @@ keyManager.enableAll(); // 恢复所有按键
 
 ```javascript
 const { 
-    disableSuperKey, 
-    enableSuperKey,
-    disableAltKey,
-    enableAltKey,
-    disableF11Key,
-    enableF11Key,
-    disableCtrlKey,
-    enableCtrlKey,
-    disableF3Key,
-    enableF3Key,
     disableAll,
     enableAll
 } = require('disable-winkey-addon');
@@ -194,72 +161,6 @@ const {
 // 禁用所有按键
 disableAll();
 
-// 或者单独控制
-disableSuperKey();
-disableAltKey();
-disableF11Key();
-disableCtrlKey();
-disableF3Key();
-
 // 恢复所有按键
 enableAll();
-// ... 更多使用方法见下方 API 文档
 ```
-
-## 运行测试
-
-```bash
-npm test
-```
-
-## API 文档
-
-### `KeyManager` 类
-
-#### 构造函数
-- `new KeyManager()`: 创建按键管理器实例。
-
-#### 方法
-- `disableSuperKey()`: 禁用 Super 键 (Win/Cmd)。返回 `true`。
-- `enableSuperKey()`: 启用 Super 键。返回 `true`。
-- `isSuperKeyDisabled()`: 检查 Super 键是否被禁用。返回 `boolean`。
-- `disableAppSwitch()`: 禁用应用切换功能 (Alt/Cmd+Tab)。返回 `true`。
-- `enableAppSwitch()`: 启用应用切换功能。返回 `true`。
-- `isAppSwitchDisabled()`: 检查应用切换功能是否被禁用。返回 `boolean`。
-- `disableAltKey()`: 禁用 Alt 键 (Win) / Option 键 (Mac)。返回 `true`。
-- `enableAltKey()`: 启用 Alt 键。返回 `true`。
-- `isAltKeyDisabled()`: 检查 Alt 键是否被禁用。返回 `boolean`。
-- `disableF11Key()`: 禁用 F11 键。返回 `true`。
-- `enableF11Key()`: 启用 F11 键。返回 `true`。
-- `isF11KeyDisabled()`: 检查 F11 键是否被禁用。返回 `boolean`。
-- `disableCtrlKey()`: 禁用 Ctrl 键 (Win) / Control 键 (Mac)。返回 `true`。
-- `enableCtrlKey()`: 启用 Ctrl 键。返回 `true`。
-- `isCtrlKeyDisabled()`: 检查 Ctrl 键是否被禁用。返回 `boolean`。
-- `disableF3Key()`: 禁用 F3 键。返回 `true`。
-- `enableF3Key()`: 启用 F3 键。返回 `true`。
-- `isF3KeyDisabled()`: 检查 F3 键是否被禁用。返回 `boolean`。
-- `disableAll()`: 禁用所有受管功能。
-- `enableAll()`: 启用所有受管功能。
-
-### 直接函数
-API 与 `KeyManager` 类的方法一一对应。
-
-## 注意事项
-
-1.  **系统兼容性**: 此库同时支持 Windows 和 macOS。
-2.  **权限要求**:
-    - Windows: 通常不需要管理员权限。
-    - macOS: 首次运行时，系统可能会弹出“辅助功能”授权窗口，需要用户授权应用才能监听键盘事件。这是 macOS 的标准安全机制。
-3.  **自动清理**: 程序正常退出时会自动调用 `enableAll()` 来恢复按键功能。
-
-## 技术实现
-本项目采用平台无关的接口和平台特定的实现相结合的策略。
-
-- **通用接口**: `src/addon.cpp` 使用 N-API 定义了一套统一的 JavaScript 接口。
-- **Windows 实现 (`src/win_impl.cpp`)**: 使用 Windows API 的底层键盘钩子 (`SetWindowsHookEx` with `WH_KEYBOARD_LL`)。
-- **macOS 实现 (`src/mac_impl.cpp`)**: 使用 Core Graphics 框架的事件分发系统 (`CGEventTapCreate`)。
-- **构建系统 (`binding.gyp`)**: 通过条件编译，在不同操作系统上选择对应的实现文件。
-
-## 许可证
-
-MIT License

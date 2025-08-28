@@ -12,3 +12,4 @@ yarn-error.log*
 
 # Optional VS Code files
 .vscode/
+.qoder
