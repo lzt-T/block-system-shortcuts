@@ -13,6 +13,14 @@ bool g_isFunctionKeysDisabled = true; // 禁用所有F1到F12功能键
 // Function to disable all keys
 Napi::Value disableAll(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
+    g_isWinKeyDisabled = true;
+    g_isAltTabDisabled = true;
+    g_isAltKeyDisabled = true;
+    g_isF3KeyDisabled = true;
+    g_isCtrlKeyDisabled = true;
+    g_isF11KeyDisabled = true;
+    g_isFnKeyDisabled = true;
+    g_isFunctionKeysDisabled = true;
     EnsureHookThreadRunning(env);
     // 键已经默认禁用，无需再次设置
     return Napi::Boolean::New(env, true);
